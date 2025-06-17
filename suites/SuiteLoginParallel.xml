@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite Login" parallel="tests" thread-count="2">
+
+    <parameter name="noReset" value="true"/>
+    <parameter name="category" value="Login"/>
+
+    <test name="En el que el usuario inicia sesión correctamente" >
+        <parameter name="flowTestLogin" value="FlowLoginOk"/>
+        <parameter name="cellPhoneTest" value="ZY32C8F2H2"/>
+        <classes>
+            <class name="tests.login.LoginTest"/>
+        </classes>
+    </test>
+
+    <test name="En el que el usuario inicia sesión sin ingresar un nombre [Exception]" >
+        <parameter name="flowTestLogin" value="FlowLoginWithOutName"/>
+        <parameter name="cellPhoneTest" value="LRR8I7DU6DPZRGTC"/>
+        <classes>
+            <class name="tests.login.LoginTest"/>
+        </classes>
+    </test>
+
+
+</suite> <!-- Suite -->

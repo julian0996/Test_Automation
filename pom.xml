@@ -20,7 +20,7 @@
     <dependency>
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
-      <version>7.6.0</version>
+      <version>9.4.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
     <dependency>
@@ -34,12 +34,7 @@
       <artifactId>selenium-java</artifactId>
       <version>3.141.59</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync -->
-    <dependency>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongodb-driver-sync</artifactId>
-      <version>4.2.1</version>
-    </dependency>
+
     <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
     <dependency>
       <groupId>com.github.javafaker</groupId>
@@ -111,18 +106,19 @@
       <version>0.10.7</version>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-jackson</artifactId>
-      <version>0.10.7</version>
-      <scope>runtime</scope>
-    </dependency>
 
     <dependency>
       <groupId>com.aventstack</groupId>
       <artifactId>extentreports</artifactId>
       <version>5.0.9</version>
     </dependency>
+
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.12.20</version> <!-- o superior, pero compatible -->
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -146,6 +142,14 @@
           <suiteXmlFiles>
             <suiteXmlFile>testng.xml</suiteXmlFile>
           </suiteXmlFiles>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>14</source>
+          <target>14</target>
         </configuration>
       </plugin>
     </plugins>
