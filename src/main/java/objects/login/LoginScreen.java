@@ -29,7 +29,7 @@ public class LoginScreen extends BaseScreen {
         tapElements(selectorCountry);
     }
 
-    public void selectGerden(String text) {
+    public void selectGender(String text) {
         String xpathDynamic = "//android.widget.RadioGroup/android.widget.RadioButton[@text = 'gender']".replaceAll("gender", text);
         tapDynamic(xpathDynamic);
     }
