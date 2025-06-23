@@ -1,6 +1,7 @@
 package steps.login;
 
 import objects.login.LoginScreen;
+import utils.ErrorController;
 
 import java.util.function.Supplier;
 
@@ -29,8 +30,14 @@ public class LoginMethods {
      * @return true si el flujo se ejecuta correctamente según el criterio de validación, false en caso contrario.
      */
     public static boolean loginExecute(LoginMethods.flowTestLogin flowTest, String countryCustomer, String genderCustomer, String nameCustomer) {
+        if (!ErrorController.validateNotNull(flowTest, "flujo de login")) return false;
+        if (!ErrorController.validateRequiredField(countryCustomer, "país del cliente")) return false;
+        if (!ErrorController.validateRequiredField(genderCustomer, "género del cliente")) return false;
         return switch (flowTest) {
-            case FLOW_LOGIN_OK -> handleLoginOk(countryCustomer, genderCustomer, nameCustomer, loginScreen::isVisibleLabelLoginOk);
+            case FLOW_LOGIN_OK -> {
+                if(!ErrorController.validateRequiredField(nameCustomer, "Nombre del cliente")) yield  false;
+               yield  handleLoginOk(countryCustomer, genderCustomer, nameCustomer, loginScreen::isVisibleLabelLoginOk);
+            }
             case FLOW_LOGIN_WITH_OUT_NAME -> handleLoginWithOutNameException(countryCustomer, genderCustomer, loginScreen::isVisibleToastException);
         };
     }
@@ -48,7 +55,7 @@ public class LoginMethods {
         loginScreen.tapSelectorCountry();
         loginScreen.selectCountry(country);
         loginScreen.inputNameCustomer(name);
-        loginScreen.selectGerden(gender);
+        loginScreen.selectGender(gender);
         loginScreen.tapButtonLogin();
         return isLabelVisible.get();
     }
@@ -64,7 +71,7 @@ public class LoginMethods {
     private static boolean handleLoginWithOutNameException(String country, String gender, Supplier<Boolean> isToastVisible) {
         loginScreen.tapSelectorCountry();
         loginScreen.selectCountry(country);
-        loginScreen.selectGerden(gender);
+        loginScreen.selectGender(gender);
         loginScreen.tapButtonLogin();
         return isToastVisible.get();
     }
