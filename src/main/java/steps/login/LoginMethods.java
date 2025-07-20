@@ -16,8 +16,19 @@ public class LoginMethods {
      * - FLOW_LOGIN_WITH_OUT_NAME: Flujo negativo donde se omite el nombre del cliente y se espera un error.
      */
     public enum flowTestLogin {
-        FLOW_LOGIN_OK,
-        FLOW_LOGIN_WITH_OUT_NAME
+        FLOW_LOGIN_OK {
+            @Override
+            boolean execute(String country, String gender, String name, LoginScreen screen) {
+                return handleLoginOk(country, gender, name, screen::isVisibleLabelLoginOk);
+            }
+        },
+        FLOW_LOGIN_WITH_OUT_NAME {
+            @Override
+            boolean execute(String country, String gender, String name, LoginScreen screen) {
+                return handleLoginWithOutNameException(country, gender, screen::isVisibleToastException);
+            }
+        };
+        abstract boolean execute(String country, String gender, String name, LoginScreen screen);
     }
 
     /**
@@ -33,13 +44,7 @@ public class LoginMethods {
         if (!ErrorController.validateNotNull(flowTest, "flujo de login")) return false;
         if (!ErrorController.validateRequiredField(countryCustomer, "país del cliente")) return false;
         if (!ErrorController.validateRequiredField(genderCustomer, "género del cliente")) return false;
-        return switch (flowTest) {
-            case FLOW_LOGIN_OK -> {
-                if(!ErrorController.validateRequiredField(nameCustomer, "Nombre del cliente")) yield  false;
-               yield  handleLoginOk(countryCustomer, genderCustomer, nameCustomer, loginScreen::isVisibleLabelLoginOk);
-            }
-            case FLOW_LOGIN_WITH_OUT_NAME -> handleLoginWithOutNameException(countryCustomer, genderCustomer, loginScreen::isVisibleToastException);
-        };
+        return flowTest.execute(countryCustomer, genderCustomer, nameCustomer, loginScreen);
     }
 
     /**
